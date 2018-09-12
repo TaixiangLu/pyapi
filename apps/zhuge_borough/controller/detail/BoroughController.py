@@ -23,8 +23,8 @@ from apps.zhuge_borough.service.detail.BoroughPriceService import BoroughPriceSe
 from apps.zhuge_borough.service.detail.CommunityService import CommunityService
 from apps.zhuge_borough.service.detail.SourceBoroughService import SourceBoroughService
 from controller.BaseController import BaseController
-import json
-
+import json,tornado,os
+import functools
 
 @route('/hello')
 class hello(BaseController):
@@ -35,6 +35,30 @@ class hello(BaseController):
     def get(self, *args, **kwargs):
         return {"data": "欢迎使用诸葛找房小区基础数据api服务!!!"}
 
+@route('/hello0')
+class hello(BaseController):
+    # @Time    : 18-4-14 下午2:30
+    # @Author  : jianguo@zhugefang.com
+    # @Desc    : 查询经纪公司列表
+    def get(self, *args, **kwargs):
+        # 耗时的代码
+        os.system("ping -c 2 www.google.com")
+        self.finish('It works')
+
+
+@route('/hello1')
+class hello1(BaseController):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self, *args, **kwargs):
+
+        url = 'www.google.com'
+        tornado.ioloop.IOLoop.instance().add_callback(functools.partial(self.ping, url))
+        self.finish('It works')
+
+    @tornado.concurrent.run_on_executor
+    def ping(self, url):
+        os.system("ping -c 2 {}".format(url))
 
 @route('/(?P<city>\w*)/borough/detail/cityareaList')
 class CityareaListDetailHandle(BaseController):
