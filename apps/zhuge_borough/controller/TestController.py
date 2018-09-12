@@ -30,7 +30,7 @@ class hello(BaseController):
     # @Desc    : 查询经纪公司列表
     def get(self, *args, **kwargs):
         # 耗时的代码
-        os.system("ping -n 2 www.baidu.com")
+        os.system("ping -c 2 www.baidu.com")
         self.finish('It works')
 @route('/hello1')
 class hello(BaseController):
@@ -46,7 +46,7 @@ class hello(BaseController):
 
     @tornado.gen.coroutine
     def ping(self, url):
-        os.system("ping -n 2 {}".format(url))
+        os.system("ping -c 2 {}".format(url))
         return 'after'
 
 @route('/hello2')
@@ -61,7 +61,7 @@ class hello(BaseController):
 
     @tornado.gen.coroutine
     def ping(self, url):
-        os.system("ping -n 2 {}".format(url))
+        os.system("ping -c 2 {}".format(url))
         return 'after'
 
 from concurrent.futures import ThreadPoolExecutor
@@ -80,7 +80,7 @@ class hello(BaseController):
 
     @tornado.concurrent.run_on_executor
     def ping(self, url):
-        os.system("ping -n 2 {}".format(url))
+        os.system("ping -c 2 {}".format(url))
 
 class Executor(ThreadPoolExecutor):
     _instance = None
@@ -111,5 +111,5 @@ class hello(BaseController):
     @tornado.concurrent.run_on_executor
     def ping(self, url):
         asyncio.set_event_loop(asyncio.new_event_loop())
-        os.system("ping -n 2 {}".format(url))
+        os.system("ping -c 2 {}".format(url))
         return 'after'
